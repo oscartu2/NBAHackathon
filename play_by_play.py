@@ -14,42 +14,29 @@ play_by_play_df.sort_values(['Period', 'PC_Time', 'WC_Time', 'Event_Num'], ascen
 # Create map of event codes
 #print(event_codes_df[:10])
 game_ids = play_by_play_df.Game_id.unique()
+periods = play_by_play_df.Period.unique()
 games_list = []
 count = 1
+
+# Repeat for every game	
 for game_number in game_ids:
 	player_maps = {}
 	print('GAME: ' + str(count))
 	current_game = play_by_play_df.loc[play_by_play_df['Game_id'] == game_number]
-	current_players = game_lineup_df.loc[game_lineup_df['Game_id'] == game_number]
-	input(current_players)
-	#for event in current_game:
-		# If player has +/- event in same period, perform calculation
 
-	#print(games_list)
-	#input("er")
-	count += 1
+	# Repeat for every p eriod
+	for period in periods:
+		current_period = current_game.loc[current_game['Period'] == period]
+		event_msg_type = current_period['Event_Msg_Type']
+		action_type = current_period['Action_Type']
 
+		for index, events in current_period.iterrows():
+			event_msg_type_description = event_codes_df.loc[(event_codes_df['Event_Msg_Type'] == event_msg_type[index]) & (event_codes_df['Action_Type'] == action_type[index])]['Event_Msg_Type_Description']
 
+			input(event_msg_type_description)
+			# IF event is related to points
+			# GET current players and add +/- to player_maps
+		
+		
 
-
-#print(play_by_play_df[:10])
-
-'''
-# Go through and parse games
-
-file = 'NBA Hackathon - Play by Play Data Sample (50 Games)' + '.txt'
-
-
-# Get list of games
-games_list = []
-
-with open(file) as f:
-	next(f)
-	for line in f:
-		#print(line)
-		current_lines_game = line.split('\t')[0]
-		if current_lines_game not in games_list:
-			games_list.append(current_lines_game)
-	print(games_list)
-
-'''
+		count += 1
