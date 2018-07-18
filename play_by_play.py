@@ -80,8 +80,18 @@ for game_number in game_ids:
 				input()
 				continue
 
+			'''if event_msg_type_description == 'Free Throw' and int(events['Event_Msg_Type']) == 3 and int(events['Option1']) == 10:
+				for players in current_players_map:
+					if current_players_map[players]['Active']:
+						if events['Team_id'] == current_players_map[players]['Team']:
+							current_players_map[players]['PM'] += int(events['Option1'])
+						else:
+							current_players_map[players]['PM'] -= int(events['Option1'])'''
+
 			if event_msg_type_description == 'Made Shot' or event_msg_type_description == 'Free Throw':
-				# Print play by play data for every time there's a made shot
+				fouls = [10, 11, 12, 13, 14, 15, 16, 17]
+				if (event_msg_type_description == 'Free Throw' and (int(events['Action_Type']) == 10) and (int(events['Option1']) == 0)):
+					input(events)
 				team_points[events['Team_id']] += int(events['Option1'])
 				for players in current_players_map:
 					if current_players_map[players]['Active']:
@@ -90,7 +100,7 @@ for game_number in game_ids:
 						else:
 							current_players_map[players]['PM'] -= int(events['Option1'])
 
-			#if event_msg_type_description == 'Free Throw':
+			
 
 
 			if event_msg_type_description == 'Substitution':
